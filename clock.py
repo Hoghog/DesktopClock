@@ -17,7 +17,14 @@ c.pack(expand=True, fill=BOTH)
 
 # 文字列作成
 cd = c.create_text(100, 100, font=('', 40, 'bold'), fill='black')
-ct = c.create_text(100, 160, font=('', 120), fill='black')
+ct = c.create_text(100, 220, font=('', 120), fill='black')
+
+# メインウィンドウを閉じる
+def wm_close():
+    root.destroy()
+
+# 閉じるボタン作成
+btn = Button(root, text="X", font=('', 16), relief=FLAT, command=wm_close)
 
 # 画面がリサイズされたとき
 def change_size(event):
@@ -34,14 +41,18 @@ def change_size(event):
     ct_h = ct_coords[1] + (ct_coords[3] - ct_coords[1]) / 2
 
     # 中心座標を合わせるように移動
-    c.move(cd, w - cd_w, h - cd_h - 60)
-    c.move(ct, w - ct_w, h - ct_h + 60)
+    c.move(cd, w - cd_w, h - cd_h - 160)
+    c.move(ct, w - ct_w, h - ct_h - 40)
+    
+    # ボタンの位置を右上に
+    btn.place(x=c.winfo_width() - 60, y=24)
 
 # 画面のリサイズをバインドする
 root.bind('<Configure>', change_size)
 
 # メインウィンドウの最大化
-root.attributes("-zoomed", "1")
+#root.attributes("-zoom", "1")
+root.attributes("-fullscreen", "1")
 
 # 常に最前面に表示
 root.attributes("-topmost", True)
