@@ -27,9 +27,9 @@ class Weather(Frame):
         # 親クラスのコンストラクタ
         super().__init__(master, bd=0, bg="white", relief="flat")
 
-        # 地域表示（左寄せ）
-        self.wp=Label(self, bg="white", fg="gray", font=("", 20, "bold"), anchor="w")
-        self.wp.grid(row=0, column=0, columnspan=8, padx=20, sticky="news")
+        # 地域表示（右寄せ）
+        self.wp=Label(self, bg="white", fg="gray", font=("Carlito", 20, "bold"), anchor="e")
+        self.wp.grid(row=5, column=0, columnspan=8, padx=20, pady=10, sticky="news")
 
         # 天候アイコン（ディクショナリー）
         self.icon_dict={
@@ -51,19 +51,19 @@ class Weather(Frame):
 
         # 天気予報（時間帯）
         self.wwl=[
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold")),
-            Label(self, text="0", bg="white", font=("", 30, "bold"))
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold")),
+            Label(self, text="0", bg="white", font=("Carlito", 30, "bold"))
         ]
 
         # 天気予報（時間帯）を配置
         for i in range(len(self.wwl)):
-            self.wwl[i].grid(row=1, column=i, pady=5, sticky="news")
+            self.wwl[i].grid(row=0, column=i, pady=10, sticky="news")
 
         # 天気予報（天候）
         self.wwi=[
@@ -79,55 +79,55 @@ class Weather(Frame):
 
         # 天気予報（天候）を配置
         for i in range(len(self.wwi)):
-            self.wwi[i].grid(row=2, column=i, pady=5, sticky="news")
+            self.wwi[i].grid(row=1, column=i, pady=10, sticky="news")
 
         # 天気予報（気温）
         self.wwt=[
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20)),
-            Label(self, text="０°C", bg="white", font=("", 20))
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24)),
+            Label(self, text="０°C", bg="white", font=("Carlito", 24))
         ]
 
         # 天気予報（気温）を配置
         for i in range(len(self.wwt)):
-            self.wwt[i].grid(row=3, column=i, pady=5, sticky="news")
+            self.wwt[i].grid(row=2, column=i, pady=10, sticky="news")
 
         # 天気予報（降水量）
         self.wwr=[
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20)),
-            Label(self, text="０mm", bg="white", font=("", 20))
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24)),
+            Label(self, text="０mm", bg="white", font=("Carlito", 24))
         ]
 
         # 天気予報（降水量）を配置
         for i in range(len(self.wwr)):
-            self.wwr[i].grid(row=4, column=i, pady=5, sticky="news")
+            self.wwr[i].grid(row=3, column=i, pady=10, sticky="news")
 
         # 天気予報（風向き）
         self.www=[
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20)),
-            Label(self, text="０", bg="white", font=("", 20))
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24)),
+            Label(self, text="０", bg="white", font=("Carlito", 24))
         ]
 
         # 天気予報（風向き）を配置
         for i in range(len(self.www)):
-            self.www[i].grid(row=5, column=i, pady=5, sticky="news")
+            self.www[i].grid(row=4, column=i, pady=10, sticky="news")
 
         # レイアウト
         self.rowconfigure(0, weight=1)
@@ -152,6 +152,9 @@ class Weather(Frame):
         # 結果が得られない場合はエラー終了
         if not ("list" in forecastData):
             self.wp.configure(text="OpenWeatherMap request error!", fg="red")
+
+            # 60秒後にリトライ
+            self.master.after(60000, self.update)
             return
 
         # デバッグ用
