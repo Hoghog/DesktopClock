@@ -62,7 +62,7 @@ app=MainFrame(root)
 app.pack(fill="both")
 
 # 閉じるボタン作成
-close=Button(root, text=" X ", font=('', 16, "bold"), relief=FLAT, command=root.destroy)
+close=Button(root, text=" X ", font=("Carlito", 16, "bold"), relief=FLAT, command=root.destroy)
 
 # 画面がリサイズされたとき、ボタンの位置を右上に移動
 def change_size(event):

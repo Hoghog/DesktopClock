@@ -16,8 +16,8 @@ class Clock(Canvas):
         self.wt2.grid(row=0, column=1, ipadx=5, sticky="news")
 
         # 日付表示
-        self.wd=Label(self, bg="white", font=("", 50, "bold"))
-        self.wd.grid(row=1, column=0, columnspan=2, sticky="news")
+        self.wd=Label(self, bg="white", font=("Carlito", 60, "bold"))
+        self.wd.grid(row=1, column=0, columnspan=2, ipady=10, sticky="news")
 
     # 表示を更新
     def update(self):
