@@ -53,8 +53,7 @@ float modRh() {
     Vc = GetVc(t);
 
     // 1024 の 1/10 を超えれば測定完了
-    // ただし、若干余裕をもたせて 70 としている
-    if(Vc > 70) break;
+    if(Vc > 104) break;
   }
 
   // HR202L の抵抗値を求める
@@ -85,8 +84,8 @@ int GetVc(long t) {
   // まずは C を放電しておかなければならない（条件によっては結構時間がかかるので注意）
   digitalWrite(RhDPin, LOW);
 
-  // 2 以下なら放電完了と見なす
-  while(analogRead(RhAPin) > 2);
+  // 70 以下なら放電完了と見なす
+  while(analogRead(RhAPin) > 70);
 
   // 充電パルス生成ここから
   noInterrupts();
