@@ -78,17 +78,23 @@ class Sensor(Frame):
             if self.ser.is_open==False:
                 self.ser.open()
 
-            # 1行受信（b'気温¥r¥n' の形式で受信）
+            # 1行受信（b'気温,湿度¥r¥n' の形式で受信）
             serval=self.ser.readline(self.ser.inWaiting())
 
-            # 改行コードを削除（b'気温'）
+            # 改行コードを削除（b'気温,湿度'）
             serval=serval.strip()
 
-            # バイナリ形式から文字列に変換（気温）
+            # バイナリ形式から文字列に変換（気温,湿度）
             serval=serval.decode("utf-8")
 
+            # CSV を分割
+            serary=serval.split(",")
+
             # 気温を更新
-            self.wst2.configure(text="{0}°c".format(round(float(serval))))
+            self.wst2.configure(text="{0}°c".format(round(float(serary[0]))))
+
+            # 湿度を更新
+            self.wsh2.configure(text="{0}%".format(round(float(serary[1]))))
 
         # 例外時
         except:

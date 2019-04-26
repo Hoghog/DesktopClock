@@ -13,7 +13,7 @@ def dev_search():
     devices=serial.tools.list_ports.comports()
     for device in devices:
         # センサーデバイス名を取得
-        if device.usb_description()=="FT232R USB UART":
+        if device.usb_description()=="Arduino Micro":
             dev=device[0]
 
     # センサーデバイス名を返却
