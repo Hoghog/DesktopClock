@@ -1,9 +1,17 @@
 from tkinter import Tk, Frame, Label
 import os
-import sensor_setting
-import serial
 import sys
 import time
+from datetime import datetime, timedelta
+from pytz import timezone
+import pymysql.cursors
+
+# MySQL の設定
+host="localhost"
+user="sensorpi"
+password="raspberry"
+db="sensor"
+charset="utf8mb4"
 
 # センサー表示クラス
 class Sensor(Frame):
@@ -49,63 +57,49 @@ class Sensor(Frame):
 
     # 表示を更新
     def update(self):
-        # センサーデバイスを探す
-        dev=sensor_setting.dev_search()
+        # 現在の時間が30秒のとき
+        now=datetime.now(timezone("UTC"))
+        if now.second == 30:
+            # データベースに接続
+            conn=pymysql.connect(
+                host=host,
+                user=user,
+                password=password,
+                db=db,
+                charset=charset,
+                cursorclass=pymysql.cursors.DictCursor
+            )
 
-        try:
-            # 通信準備中かつ、センサーデバイスが OS に認識されている場合
-            if not self.ser_init and dev!="":
-                # シリアル通信の初期化
-                self.ser=serial.Serial(dev, sensor_setting.bps, timeout=sensor_setting.timeout)
+            try:
+                # データベースに問い合わせる
+                with conn.cursor() as cursor:
+                    sql  = "SELECT avg_temperature, avg_humidity FROM tbl_serval "
+                    sql += "WHERE time > '" + "{0:%Y-%m-%d %H:%M:00}".format(now-timedelta(minutes=1)) + "' "
+                    sql += "ORDER BY time DESC"
 
-                # 通信準備完了
-                self.ser_init=True
+                    # 温度と湿度を取得
+                    cursor.execute(sql)
+                    results = cursor.fetchone()
 
-        # 例外時は何もしない
-        except:
-            pass
+                    # 気温を更新
+                    self.wst2.configure(text="{0}°c".format(round(float(results['avg_temperature']))))
 
-        # 通信準備完了かつ、認識されていない場合
-        if dev=="" and self.ser_init:
-            # シリアル通信を終了
-            self.ser.close()
+                    # 湿度を更新
+                    self.wsh2.configure(text="{0}%".format(round(float(results['avg_humidity']))))
 
-            # 通信準備中
-            self.ser_init=False
+            # 例外時
+            except:
+                # 気温表示を無効化
+                self.wst2.configure(text="-°c")
 
-        try:
-            # シリアル通信を開始
-            if self.ser.is_open==False:
-                self.ser.open()
+                # 湿度表示を無効化
+                self.wsh2.configure(text="-%")
 
-            # 1行受信（b'気温,湿度¥r¥n' の形式で受信）
-            serval=self.ser.readline(self.ser.inWaiting())
+            finally:
+                # データベースから切断
+                conn.close()
 
-            if not serval=="":
-                # 改行コードを削除（b'気温,湿度'）
-                serval=serval.strip()
-
-                # バイナリ形式から文字列に変換（気温,湿度）
-                serval=serval.decode("utf-8")
-
-                # CSV を分割
-                serary=serval.split(",")
-                print(serval)
-                # 気温を更新
-                self.wst2.configure(text="{0}°c".format(round(float(serary[0]))))
-
-                # 湿度を更新
-                self.wsh2.configure(text="{0}%".format(round(float(serary[1]))))
-
-        # 例外時
-        except:
-            # 気温表示を無効化
-            self.wst2.configure(text="-°c")
-
-            # 湿度表示を無効化
-            self.wsh2.configure(text="-%")
-
-        # 1秒後に再表示
+        # 1秒後に再実行
         self.master.after(1000, self.update)
 
 # 単独処理の場合
